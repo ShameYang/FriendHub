@@ -9,7 +9,7 @@ import com.shameyang.friendhub.exception.BusinessException;
 import com.shameyang.friendhub.mapper.UserMapper;
 import com.shameyang.friendhub.model.domain.User;
 import com.shameyang.friendhub.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;

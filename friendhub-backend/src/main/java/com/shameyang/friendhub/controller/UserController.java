@@ -9,8 +9,8 @@ import com.shameyang.friendhub.model.request.UserLoginRequest;
 import com.shameyang.friendhub.model.request.UserRegisterRequest;
 import com.shameyang.friendhub.service.UserService;
 import com.shameyang.friendhub.utils.ResultUtils;
-import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletRequest;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
