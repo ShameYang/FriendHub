@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {ref} from 'vue';
+import { useRouter } from "vue-router";
 
 const searchText = ref('');
 
@@ -49,6 +50,18 @@ const close = (tag) => {
     return item !== tag;
   })
 };
+
+const router = useRouter();
+
+// 执行搜索
+const doSearchResult = () => {
+  router.push({
+    path: "/user/list",
+    query: {
+      tags: activeIds.value
+    }
+  });
+}
 </script>
 
 <template>
@@ -75,6 +88,9 @@ const close = (tag) => {
       v-model:main-active-index="activeIndex"
       :items="tagList"
   />
+  <div style="padding: 30px">
+    <van-button type="primary" block @click="doSearchResult">搜索用户</van-button>
+  </div>
 </template>
 
 <style scoped>
