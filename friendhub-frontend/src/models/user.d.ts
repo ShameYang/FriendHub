@@ -13,4 +13,5 @@ export type UserType = {
     createTime: Date;
     userRole: number;
     tags: string;
+    profile: string;
 };
