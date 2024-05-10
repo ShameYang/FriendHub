@@ -1,25 +1,43 @@
 <script setup lang="ts">
 import { useRoute } from "vue-router";
-import {ref} from "vue";
+import { onMounted, ref } from "vue";
+import myAxios from '../plugins/myAxios'
+import { showFailToast } from "vant";
+import qs from 'qs';
 
 const route = useRoute();
 
 const { tags } = route.query;
 
-const mockUser = {
-  id: 1,
-  userName: 'shameyang',
-  userAccount: '123321',
-  avatarUrl: 'https://avatars.githubusercontent.com/u/94451620?v=4',
-  gender: '男',
-  phone: '123123',
-  email: '111@qq.com',
-  createTime: new Date(),
-  tags: ['java', '学习中', '大三', '待实习'],
-  profile: '一个热爱编程的大学生，持续学习中...'
-}
+const userList = ref([]);
 
-const userList = ref([mockUser]);
+onMounted(async () => {
+  const userListData = await myAxios.get('/user/search/tags', {
+    params: {
+      tagNameList: tags
+    },
+    paramsSerializer: params => {
+      return qs.stringify(params, {indices: false})
+    }
+
+  })
+      .then(function (response) {
+        console.log('/user/search/tags succeed', response);
+        return response.data?.data
+      })
+      .catch(function (error) {
+        console.error('/user/search/tags error', error);
+        showFailToast('请求失败');
+      })
+  if (userListData) {
+    userListData.forEach(user => {
+      if (user.tags) {
+        user.tags = JSON.parse(user.tags);
+      }
+    })
+    userList.value = userListData;
+  }
+})
 </script>
 
 <template>
@@ -38,6 +56,7 @@ const userList = ref([mockUser]);
       <van-button size="small">联系我</van-button>
     </template>
   </van-card>
+  <van-empty v-if="!userList || userList.length < 1" description="搜索结果为空" />
 </template>
 
 <style scoped>
