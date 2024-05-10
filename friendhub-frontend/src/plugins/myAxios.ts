@@ -2,7 +2,6 @@ import axios from "axios";
 
 const myAxios = axios.create({
     baseURL: 'http://localhost:8080/api',
-    headers: {'X-Custom-Header': 'foobar'}
 });
 
 // 添加请求拦截器
