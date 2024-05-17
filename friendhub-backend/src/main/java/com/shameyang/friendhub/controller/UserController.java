@@ -108,6 +108,14 @@ public class UserController {
         return ResultUtils.success(userList);
     }
 
+    @GetMapping("/recommend")
+    public BaseResponse<List<User>> recommendUsers(HttpServletRequest request) {
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        List<User> userList = userService.list(queryWrapper);
+        List<User> result = userList.stream().map(user -> userService.getHandlerUser(user)).collect(Collectors.toList());
+        return ResultUtils.success(result);
+    }
+
     @PostMapping("/delete")
     public BaseResponse<Boolean> deleteUser(@RequestBody Long id, HttpServletRequest request) {
         if (userService.isNotAdmin(request)) {
