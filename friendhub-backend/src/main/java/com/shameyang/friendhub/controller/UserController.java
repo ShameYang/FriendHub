@@ -28,7 +28,7 @@ import static com.shameyang.friendhub.constant.UserConstant.USER_LOGIN_STATE;
  */
 @RestController
 @RequestMapping("/user")
-@CrossOrigin(origins = { "http://localhost:5173" })
+@CrossOrigin(origins = {"http://localhost:5173/"}, allowCredentials = "true")
 public class UserController {
 
     @Resource
@@ -125,7 +125,7 @@ public class UserController {
         // 校验参数是否为空
         if (user == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
-        } 
+        }
         User loginUser = userService.getLoginUser(request);
         Integer result = userService.updateUser(user, loginUser);
         return ResultUtils.success(result);
