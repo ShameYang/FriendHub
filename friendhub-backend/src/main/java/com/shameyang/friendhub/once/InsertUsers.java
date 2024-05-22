@@ -49,7 +49,7 @@ public class InsertUsers {
     /**
      * 并发批量插入用户  100000
      */
-    @Scheduled(initialDelay = 5000,fixedRate = Long.MAX_VALUE)
+//    @Scheduled(initialDelay = 5000,fixedRate = Long.MAX_VALUE)
     public void doConcurrencyInsertUser() {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
