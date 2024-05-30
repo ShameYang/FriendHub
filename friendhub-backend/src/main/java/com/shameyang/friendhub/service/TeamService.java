@@ -2,6 +2,7 @@ package com.shameyang.friendhub.service;
 
 import com.shameyang.friendhub.model.domain.Team;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.shameyang.friendhub.model.domain.User;
 
 /**
 * @author shameyang
@@ -10,4 +11,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface TeamService extends IService<Team> {
 
+    /**
+     * 创建队伍
+     * @param team 队伍
+     * @param loginUser 当前用户
+     * @return teamId
+     */
+    long addTeam(Team team, User loginUser);
 }

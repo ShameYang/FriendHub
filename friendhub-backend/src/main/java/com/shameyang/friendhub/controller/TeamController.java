@@ -6,7 +6,9 @@ import com.shameyang.friendhub.common.BaseResponse;
 import com.shameyang.friendhub.common.ErrorCode;
 import com.shameyang.friendhub.exception.BusinessException;
 import com.shameyang.friendhub.model.domain.Team;
+import com.shameyang.friendhub.model.domain.User;
 import com.shameyang.friendhub.model.dto.TeamQuery;
+import com.shameyang.friendhub.model.request.TeamAddRequest;
 import com.shameyang.friendhub.service.TeamService;
 import com.shameyang.friendhub.service.UserService;
 import com.shameyang.friendhub.utils.ResultUtils;
@@ -37,15 +39,19 @@ public class TeamController {
     private TeamService teamService;
 
     @PostMapping("/add")
-    public BaseResponse<Long> addTeam(@RequestBody Team team) {
-        if (team == null) {
-            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+    public BaseResponse<Long> addTeam(@RequestBody TeamAddRequest teamAddRequest, HttpServletRequest request) {
+        if (teamAddRequest == null) {
+            throw new BusinessException(ErrorCode.NULL_ERROR);
         }
-        boolean save = teamService.save(team);
-        if (!save) {
-            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "插入失败");
+        User loginUser = userService.getLoginUser(request);
+        Team team = new Team();
+        try {
+            BeanUtils.copyProperties(team, teamAddRequest);
+        } catch (Exception e) {
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR);
         }
-        return ResultUtils.success(team.getId());
+        long teamId = teamService.addTeam(team, loginUser);
+        return ResultUtils.success(teamId);
     }
 
     @PostMapping("/delete")
