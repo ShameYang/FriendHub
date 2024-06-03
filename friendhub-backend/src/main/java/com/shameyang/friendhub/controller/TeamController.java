@@ -9,6 +9,7 @@ import com.shameyang.friendhub.model.domain.Team;
 import com.shameyang.friendhub.model.domain.User;
 import com.shameyang.friendhub.model.dto.TeamQuery;
 import com.shameyang.friendhub.model.request.TeamAddRequest;
+import com.shameyang.friendhub.model.vo.TeamUserVO;
 import com.shameyang.friendhub.service.TeamService;
 import com.shameyang.friendhub.service.UserService;
 import com.shameyang.friendhub.utils.ResultUtils;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 /**
@@ -91,18 +91,12 @@ public class TeamController {
     }
 
     @GetMapping("/list")
-    public BaseResponse<List<Team>> listTeams(TeamQuery teamQuery) {
+    public BaseResponse<List<TeamUserVO>> listTeams(TeamQuery teamQuery, HttpServletRequest request) {
         if (teamQuery == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        Team team = new Team();
-        try {
-            BeanUtils.copyProperties(team, teamQuery);
-        } catch (Exception e) {
-            throw new BusinessException(ErrorCode.SYSTEM_ERROR);
-        }
-        QueryWrapper<Team> queryWrapper = new QueryWrapper<>(team);
-        List<Team> teamList = teamService.list(queryWrapper);
+        User loginUser = userService.getLoginUser(request);
+        List<TeamUserVO> teamList = teamService.listTeams(teamQuery, loginUser);
         return ResultUtils.success(teamList);
     }
 
