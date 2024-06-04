@@ -9,6 +9,7 @@ import com.shameyang.friendhub.model.domain.Team;
 import com.shameyang.friendhub.model.domain.User;
 import com.shameyang.friendhub.model.dto.TeamQuery;
 import com.shameyang.friendhub.model.request.TeamAddRequest;
+import com.shameyang.friendhub.model.request.TeamJoinRequest;
 import com.shameyang.friendhub.model.request.TeamUpdateRequest;
 import com.shameyang.friendhub.model.vo.TeamUserVO;
 import com.shameyang.friendhub.service.TeamService;
@@ -117,5 +118,15 @@ public class TeamController {
         QueryWrapper<Team> queryWrapper = new QueryWrapper<>(team);
         Page<Team> resultPage = teamService.page(page, queryWrapper);
         return ResultUtils.success(resultPage);
+    }
+
+    @PostMapping("/join")
+    public BaseResponse<Boolean> joinTeam(@RequestBody TeamJoinRequest teamJoinRequest, HttpServletRequest request) {
+        if (teamJoinRequest == null) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        User loginUser = userService.getLoginUser(request);
+        boolean result = teamService.joinTeam(teamJoinRequest, loginUser);
+        return ResultUtils.success(result);
     }
 }
