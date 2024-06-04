@@ -4,6 +4,7 @@ import com.shameyang.friendhub.model.domain.Team;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.shameyang.friendhub.model.domain.User;
 import com.shameyang.friendhub.model.dto.TeamQuery;
+import com.shameyang.friendhub.model.request.TeamUpdateRequest;
 import com.shameyang.friendhub.model.vo.TeamUserVO;
 
 import java.util.List;
@@ -31,4 +32,11 @@ public interface TeamService extends IService<Team> {
      * @return TeamUserVO
      */
     List<TeamUserVO> listTeams(TeamQuery teamQuery, User loginUser);
+
+    /**
+     * 更新队伍
+     * @param teamUpdateRequest 更新请求体
+     * @return boolean
+     */
+    boolean updateTeam(TeamUpdateRequest teamUpdateRequest, User loginUser);
 }

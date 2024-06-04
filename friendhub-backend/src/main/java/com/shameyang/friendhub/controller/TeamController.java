@@ -9,6 +9,7 @@ import com.shameyang.friendhub.model.domain.Team;
 import com.shameyang.friendhub.model.domain.User;
 import com.shameyang.friendhub.model.dto.TeamQuery;
 import com.shameyang.friendhub.model.request.TeamAddRequest;
+import com.shameyang.friendhub.model.request.TeamUpdateRequest;
 import com.shameyang.friendhub.model.vo.TeamUserVO;
 import com.shameyang.friendhub.service.TeamService;
 import com.shameyang.friendhub.service.UserService;
@@ -67,11 +68,12 @@ public class TeamController {
     }
 
     @PostMapping("/update")
-    public BaseResponse<Boolean> updateTeam(@RequestBody Team team) {
-        if (team == null) {
+    public BaseResponse<Boolean> updateTeam(@RequestBody TeamUpdateRequest teamUpdateRequest, HttpServletRequest request) {
+        if (teamUpdateRequest == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        boolean result = teamService.updateById(team);
+        User loginUser = userService.getLoginUser(request);
+        boolean result = teamService.updateTeam(teamUpdateRequest, loginUser);
         if (!result) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "更新失败");
         }

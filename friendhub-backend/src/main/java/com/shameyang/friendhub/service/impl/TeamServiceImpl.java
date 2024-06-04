@@ -10,6 +10,7 @@ import com.shameyang.friendhub.model.domain.User;
 import com.shameyang.friendhub.model.domain.UserTeam;
 import com.shameyang.friendhub.model.dto.TeamQuery;
 import com.shameyang.friendhub.model.enums.TeamStatusEnum;
+import com.shameyang.friendhub.model.request.TeamUpdateRequest;
 import com.shameyang.friendhub.model.vo.TeamUserVO;
 import com.shameyang.friendhub.model.vo.UserVO;
 import com.shameyang.friendhub.service.TeamService;
@@ -182,6 +183,39 @@ public class TeamServiceImpl extends ServiceImpl<TeamMapper, Team>
             teamUserVOList.add(teamUserVO);
         }
         return teamUserVOList;
+    }
+
+    @Override
+    public boolean updateTeam(TeamUpdateRequest teamUpdateRequest, User loginUser) {
+        if (teamUpdateRequest == null) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        Long id = teamUpdateRequest.getId();
+        if (id == null || id <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        Team oldTeam = this.getById(id);
+        if (oldTeam == null) {
+            throw new BusinessException(ErrorCode.NULL_ERROR, "队伍不存在");
+        }
+        // 只有管理员或者队伍的创建者可以修改
+        if (!oldTeam.getUserId().equals(loginUser.getId()) || userService.isNotAdmin(loginUser)) {
+            throw new BusinessException(ErrorCode.NO_AUTH);
+        }
+
+        TeamStatusEnum statusEnum = TeamStatusEnum.getEnumByValue(teamUpdateRequest.getStatus());
+        if (statusEnum.equals(TeamStatusEnum.SECRET)) {
+            if (StringUtils.isBlank(teamUpdateRequest.getPassword())) {
+                throw new BusinessException(ErrorCode.PARAMS_ERROR, "加密队伍必须有密码");
+            }
+        } else {
+            if (StringUtils.isNotBlank(teamUpdateRequest.getPassword())) {
+                throw new BusinessException(ErrorCode.PARAMS_ERROR, "非加密队伍不能设置密码");
+            }
+        }
+        Team updateTeam = new Team();
+        BeanUtils.copyProperties(teamUpdateRequest, updateTeam);
+        return this.updateById(updateTeam);
     }
 }
 
