@@ -8,10 +8,7 @@ import com.shameyang.friendhub.exception.BusinessException;
 import com.shameyang.friendhub.model.domain.Team;
 import com.shameyang.friendhub.model.domain.User;
 import com.shameyang.friendhub.model.dto.TeamQuery;
-import com.shameyang.friendhub.model.request.TeamAddRequest;
-import com.shameyang.friendhub.model.request.TeamJoinRequest;
-import com.shameyang.friendhub.model.request.TeamQuitRequest;
-import com.shameyang.friendhub.model.request.TeamUpdateRequest;
+import com.shameyang.friendhub.model.request.*;
 import com.shameyang.friendhub.model.vo.TeamUserVO;
 import com.shameyang.friendhub.service.TeamService;
 import com.shameyang.friendhub.service.UserService;
@@ -55,18 +52,6 @@ public class TeamController {
         }
         long teamId = teamService.addTeam(team, loginUser);
         return ResultUtils.success(teamId);
-    }
-
-    @PostMapping("/delete")
-    public BaseResponse<Boolean> deleteTeam(@RequestBody long id) {
-        if (id <= 0) {
-            throw new BusinessException(ErrorCode.PARAMS_ERROR);
-        }
-        boolean result = teamService.removeById(id);
-        if (!result) {
-            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "删除失败");
-        }
-        return ResultUtils.success(true);
     }
 
     @PostMapping("/update")
@@ -139,5 +124,19 @@ public class TeamController {
         User loginUser = userService.getLoginUser(request);
         boolean result = teamService.quitTeam(teamQuitRequest, loginUser);
         return ResultUtils.success(result);
+    }
+
+    @PostMapping("/delete")
+    public BaseResponse<Boolean> deleteTeam(@RequestBody TeamDeleteRequest teamDeleteRequest, HttpServletRequest request) {
+        if (teamDeleteRequest == null || teamDeleteRequest.getId() <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        long id = teamDeleteRequest.getId();
+        User loginUser = userService.getLoginUser(request);
+        boolean result = teamService.deleteTeam(id, loginUser);
+        if (!result) {
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "删除失败");
+        }
+        return ResultUtils.success(true);
     }
 }
