@@ -45,8 +45,8 @@ public class TeamServiceImpl extends ServiceImpl<TeamMapper, Team>
     @Resource
     private UserService userService;
 
-    @Transactional(rollbackFor = Exception.class)
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public long addTeam(Team team, User loginUser) {
         // 1. 请求参数是否为空
         if (team == null) {
@@ -278,6 +278,7 @@ public class TeamServiceImpl extends ServiceImpl<TeamMapper, Team>
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean quitTeam(TeamQuitRequest teamQuitRequest, User loginUser) {
         if (teamQuitRequest == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
