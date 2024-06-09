@@ -6,11 +6,13 @@ import UserEdit from "../pages/UserEdit.vue";
 import SearchResult from "../pages/SearchResult.vue";
 import UserLogin from "../pages/UserLogin.vue";
 import TeamAdd from "../pages/TeamAdd.vue";
+import TeamUpdate from "../pages/TeamUpdate.vue";
 
 const routes = [
     { path: '/', component: Index },
     { path: '/team', component: Team },
     { path: '/team/add', component: TeamAdd },
+    { path: '/team/update', component: TeamUpdate },
     { path: '/user', component: User },
     { path: '/user/edit', component: UserEdit },
     { path: '/user/list', component: SearchResult },

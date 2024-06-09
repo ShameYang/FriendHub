@@ -3,6 +3,9 @@ import { TeamType } from "../models/team";
 import { teamStatusEnum } from "../constants/team.ts";
 import teamAvatar from "../assets/teamAvatar.png"
 import myAxios from "../plugins/myAxios.ts";
+import { onMounted, ref } from "vue";
+import { getCurrentUser } from "../services/user.ts";
+import {useRouter} from "vue-router";
 
 interface TeamCardListProps {
   teamList: TeamType[];
@@ -25,6 +28,27 @@ const doJoinTeam = async (id: number) => {
   } else {
     showFailToast('加入失败' + (res.description ? `，${res.description}` : ''));
   }
+}
+
+const currentUser = ref();
+
+onMounted(async () => {
+  currentUser.value = await getCurrentUser();
+})
+
+const router = useRouter();
+
+/**
+ * 修改队伍信息
+ * @param id
+ */
+const doUpdateTeam = (id: number) => {
+  router.push({
+    path: '/team/update',
+    query: {
+      id,
+    }
+  })
 }
 
 </script>
@@ -58,7 +82,10 @@ const doJoinTeam = async (id: number) => {
       </div>
     </template>
     <template #footer>
-      <van-button size="small" @click="doJoinTeam(team.id)">加入队伍</van-button>
+      <van-button v-if="team.userId !== currentUser?.id && !team.hasJoin" size="small"
+                  @click="doJoinTeam(team.id)">加入队伍</van-button>
+      <van-button v-if="team.userId === currentUser?.id" size="small"
+                  @click="doUpdateTeam(team.id)">修改队伍信息</van-button>
     </template>
   </van-card>
   </div>
