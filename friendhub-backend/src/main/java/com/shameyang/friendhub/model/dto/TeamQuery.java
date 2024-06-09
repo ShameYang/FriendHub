@@ -28,6 +28,11 @@ public class TeamQuery extends PageRequest {
     private String description;
 
     /**
+     * 搜索关键词
+     */
+    private String searchText;
+
+    /**
      * 最大人数
      */
     private Integer maxNum;

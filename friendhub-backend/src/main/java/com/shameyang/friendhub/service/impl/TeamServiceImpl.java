@@ -136,6 +136,11 @@ public class TeamServiceImpl extends ServiceImpl<TeamMapper, Team>
             if (StringUtils.isNotBlank(description)) {
                 queryWrapper.like("description", description);
             }
+            String searchText = teamQuery.getSearchText();
+            if (StringUtils.isNotBlank(searchText)) {
+                queryWrapper.and(qw -> qw.like("name", searchText).or().like("description", searchText));
+            }
+
             Integer maxNum = teamQuery.getMaxNum();
             // 查询最大人数相等的
             if (maxNum != null && maxNum > 0) {
