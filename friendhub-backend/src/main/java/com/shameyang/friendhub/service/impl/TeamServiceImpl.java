@@ -120,7 +120,7 @@ public class TeamServiceImpl extends ServiceImpl<TeamMapper, Team>
     }
 
     @Override
-    public List<TeamUserVO> listTeams(TeamQuery teamQuery, User loginUser) {
+    public List<TeamUserVO> listTeams(TeamQuery teamQuery, boolean isNotAdmin) {
         QueryWrapper<Team> queryWrapper = new QueryWrapper<>();
         // 从请求参数中取出条件，进行查询
         if (teamQuery != null) {
@@ -157,7 +157,7 @@ public class TeamServiceImpl extends ServiceImpl<TeamMapper, Team>
             if (statusEnum == null) {
                 statusEnum = TeamStatusEnum.PUBLIC;
             }
-            if (userService.isNotAdmin(loginUser) && !statusEnum.equals(TeamStatusEnum.PUBLIC)) {
+            if (isNotAdmin && !statusEnum.equals(TeamStatusEnum.PUBLIC)) {
                 throw new BusinessException(ErrorCode.NO_AUTH);
             }
             queryWrapper.eq("status", statusEnum.getValue());

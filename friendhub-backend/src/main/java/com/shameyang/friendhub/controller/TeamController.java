@@ -84,11 +84,12 @@ public class TeamController {
         if (teamQuery == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        User loginUser = userService.getLoginUser(request);
-        List<TeamUserVO> teamList = teamService.listTeams(teamQuery, loginUser);
+        boolean isNotAdmin = userService.isNotAdmin(request);
+        List<TeamUserVO> teamList = teamService.listTeams(teamQuery, isNotAdmin);
         return ResultUtils.success(teamList);
     }
 
+    // todo 分页查询
     @GetMapping("/list/page")
     public BaseResponse<Page<Team>> listTeamsByPage(TeamQuery teamQuery) {
         if (teamQuery == null) {
