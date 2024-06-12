@@ -140,9 +140,8 @@ public class TeamController {
         if (teamDeleteRequest == null || teamDeleteRequest.getId() <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        long id = teamDeleteRequest.getId();
         User loginUser = userService.getLoginUser(request);
-        boolean result = teamService.deleteTeam(id, loginUser);
+        boolean result = teamService.deleteTeam(teamDeleteRequest, loginUser);
         if (!result) {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "删除失败");
         }

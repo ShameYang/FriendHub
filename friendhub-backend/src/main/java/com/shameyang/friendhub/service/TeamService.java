@@ -4,6 +4,7 @@ import com.shameyang.friendhub.model.domain.Team;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.shameyang.friendhub.model.domain.User;
 import com.shameyang.friendhub.model.dto.TeamQuery;
+import com.shameyang.friendhub.model.request.TeamDeleteRequest;
 import com.shameyang.friendhub.model.request.TeamJoinRequest;
 import com.shameyang.friendhub.model.request.TeamQuitRequest;
 import com.shameyang.friendhub.model.request.TeamUpdateRequest;
@@ -59,9 +60,9 @@ public interface TeamService extends IService<Team> {
 
     /**
      * 解散队伍
-     * @param id 队伍id
+     * @param teamDeleteRequest 解散请求体
      * @param loginUser 当前用户
      * @return boolean
      */
-    boolean deleteTeam(long id, User loginUser);
+    boolean deleteTeam(TeamDeleteRequest teamDeleteRequest, User loginUser);
 }

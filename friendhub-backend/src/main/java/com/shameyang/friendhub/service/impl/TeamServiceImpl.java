@@ -10,6 +10,7 @@ import com.shameyang.friendhub.model.domain.User;
 import com.shameyang.friendhub.model.domain.UserTeam;
 import com.shameyang.friendhub.model.dto.TeamQuery;
 import com.shameyang.friendhub.model.enums.TeamStatusEnum;
+import com.shameyang.friendhub.model.request.TeamDeleteRequest;
 import com.shameyang.friendhub.model.request.TeamJoinRequest;
 import com.shameyang.friendhub.model.request.TeamQuitRequest;
 import com.shameyang.friendhub.model.request.TeamUpdateRequest;
@@ -326,7 +327,8 @@ public class TeamServiceImpl extends ServiceImpl<TeamMapper, Team>
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean deleteTeam(long id, User loginUser) {
+    public boolean deleteTeam(TeamDeleteRequest teamDeleteRequest, User loginUser) {
+        Long id = teamDeleteRequest.getId();
         // 校验队伍是否存在
         Team team = getTeamById(id);
         // 校验你是不是队伍的队长
