@@ -51,6 +51,36 @@ const doUpdateTeam = (id: number) => {
   })
 }
 
+/**
+ * 退出队伍
+ * @param id
+ */
+const doQuitTeam = async (id: number) => {
+  const res = await myAxios.post('/team/quit', {
+    id: id
+  });
+  if (res?.code === 0) {
+    showSuccessToast('操作成功');
+  } else {
+    showFailToast('操作失败' + (res.description ? `，${res.description}` : ''));
+  }
+}
+
+/**
+ * 解散队伍
+ * @param id
+ */
+const doDeleteTeam = async (id: number) => {
+  const res = await myAxios.post('/team/delete', {
+    id,
+  });
+  if (res?.code === 0) {
+    showSuccessToast('操作成功');
+  } else {
+    showFailToast('操作失败' + (res.description ? `，${res.description}` : ''));
+  }
+}
+
 </script>
 
 <template>
@@ -86,6 +116,10 @@ const doUpdateTeam = (id: number) => {
                   @click="doJoinTeam(team.id)">加入队伍</van-button>
       <van-button v-if="team.userId === currentUser?.id" size="small"
                   @click="doUpdateTeam(team.id)">修改队伍信息</van-button>
+      <van-button v-if="team.userId !== currentUser?.id" size="small"
+                  @click="doQuitTeam(team.id)">退出队伍</van-button>
+      <van-button v-if="team.userId === currentUser?.id" size="small"
+                  @click="doDeleteTeam(team.id)">解散队伍</van-button>
     </template>
   </van-card>
   </div>
