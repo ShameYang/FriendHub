@@ -121,7 +121,7 @@ public class UserController {
     public BaseResponse<Page<User>> recommendUsers(long pageSize, long pageNum, HttpServletRequest request) {
         User loginUser = userService.getLoginUser(request);
         String redisKey = String.format("friendhub:user:recommend:%s", loginUser.getId());
-        ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
+        ValueOperations valueOperations = redisTemplate.opsForValue();
         // 有缓存，直接读取
         Page<User> userPage = (Page<User>) valueOperations.get(redisKey);
         if (userPage != null) {
