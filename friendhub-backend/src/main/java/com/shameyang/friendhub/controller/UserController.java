@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import static com.shameyang.friendhub.constant.UserConstant.ADMIN_ROLE;
 import static com.shameyang.friendhub.constant.UserConstant.USER_LOGIN_STATE;
 
 /**
@@ -162,4 +161,14 @@ public class UserController {
         Integer result = userService.updateUser(user, loginUser);
         return ResultUtils.success(result);
     }
+
+    @GetMapping("/match")
+    public BaseResponse<List<User>> matchUsers(long num, HttpServletRequest request) {
+        if (num <= 0 || num > 20) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        User loginUser = userService.getLoginUser(request);
+        return ResultUtils.success(userService.matchUsers(num, loginUser));
+    }
+
 }

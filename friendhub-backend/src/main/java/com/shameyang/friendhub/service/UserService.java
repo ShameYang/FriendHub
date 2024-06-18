@@ -2,6 +2,7 @@ package com.shameyang.friendhub.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.shameyang.friendhub.model.domain.User;
+
 import javax.servlet.http.HttpServletRequest;
 
 import java.util.List;
@@ -77,4 +78,12 @@ public interface UserService extends IService<User> {
      * @return 不是管理员
      */
     boolean isNotAdmin(User loginUser);
+
+    /**
+     * 匹配用户
+     * @param num 匹配数
+     * @param loginUser 当前登录用户
+     * @return 用户列表
+     */
+    List<User> matchUsers(long num, User loginUser);
 }
