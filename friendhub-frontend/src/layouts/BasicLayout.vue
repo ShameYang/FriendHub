@@ -1,7 +1,23 @@
 <script setup lang="ts">
 import {useRouter} from "vue-router";
+import { ref } from "vue";
+import routes from "../config/route";
 
 const router = useRouter();
+
+const DEFAULT_TITLE= 'FriendHub';
+const title = ref(DEFAULT_TITLE);
+
+/**
+ * 根据路由切换标题
+ */
+router.beforeEach((to) => {
+  const toPath = to.path;
+  const route = routes.find((route) => {
+    return toPath == route.path;
+  })
+  title.value = route?.title ?? DEFAULT_TITLE;
+})
 
 const onClickLeft = () => history.back();
 const onClickRight = () => {
@@ -11,7 +27,7 @@ const onClickRight = () => {
 
 <template>
   <van-nav-bar
-      title="FriendHub"
+      :title="title"
       left-text=""
       left-arrow
       @click-left="onClickLeft"
