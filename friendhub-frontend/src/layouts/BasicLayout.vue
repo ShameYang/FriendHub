@@ -26,7 +26,7 @@ const onClickRight = () => {
   </div>
   <van-tabbar route>
     <van-tabbar-item to="/" icon="home-o"></van-tabbar-item>
-    <van-tabbar-item to="/team" icon="search"></van-tabbar-item>
+    <van-tabbar-item to="/team" icon="friends-o"></van-tabbar-item>
     <van-tabbar-item to="/user" icon="contact-o"></van-tabbar-item>
   </van-tabbar>
 </template>
