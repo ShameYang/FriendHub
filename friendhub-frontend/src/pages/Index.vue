@@ -43,7 +43,6 @@ const loadData = async () => {
     })
         .then(function (response) {
           console.log('/user/recommend   succeed', response);
-          showSuccessToast('请求成功');
           return response?.data?.records;
         })
         .catch(function (error) {
