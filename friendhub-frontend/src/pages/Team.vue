@@ -60,7 +60,7 @@ onMounted(async () => {
   <div id="teamPage">
     <van-search v-model="searchText" placeholder="搜索队伍" @search="onSearch"/>
     <span id="teamAdd">
-      <van-button type="primary" @click="toAddTeam">创建队伍</van-button>
+      <van-button class="add-button" icon="plus" type="primary" round @click="toAddTeam"/>
     </span>
     <span id="teamCreate">
       <van-button type="primary" @click="toUserTeamCreate">查看创建的队伍</van-button>

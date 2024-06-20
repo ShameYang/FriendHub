@@ -1,0 +1,7 @@
+.add-button {
+    position: fixed;
+    z-index: 1;
+    bottom: 60px;
+    right: 8px;
+    opacity: 0.8;
+}
