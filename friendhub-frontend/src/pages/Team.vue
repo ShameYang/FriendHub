@@ -114,6 +114,7 @@ onMounted(async () => {
       <van-tab title="已加入" name="join"/>
       <van-tab title="我的创建" name="create"/>
     </van-tabs>
+    <div style="margin-bottom: 8px" />
     <team-card-list :teamList="teamList"/>
     <van-empty v-if="teamList?.length < 1" description="数据为空"/>
   </div>
