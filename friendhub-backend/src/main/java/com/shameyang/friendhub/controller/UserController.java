@@ -41,7 +41,7 @@ public class UserController {
     private UserService userService;
 
     @Resource
-    private RedisTemplate redisTemplate;
+    private RedisTemplate<String, Object> redisTemplate;
 
     @PostMapping("/register")
     public BaseResponse<Long> userRegister(@RequestBody UserRegisterRequest userRegisterRequest) {
@@ -121,7 +121,7 @@ public class UserController {
     public BaseResponse<Page<User>> recommendUsers(long pageSize, long pageNum, HttpServletRequest request) {
         User loginUser = userService.getLoginUser(request);
         String redisKey = String.format("friendhub:user:recommend:%s", loginUser.getId());
-        ValueOperations valueOperations = redisTemplate.opsForValue();
+        ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
         // 有缓存，直接读取
         Page<User> userPage = (Page<User>) valueOperations.get(redisKey);
         if (userPage != null) {
