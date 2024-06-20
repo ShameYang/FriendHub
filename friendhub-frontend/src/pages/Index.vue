@@ -42,11 +42,11 @@ const loadData = async () => {
       },
     })
         .then(function (response) {
-          console.log('/user/recommend   succeed', response);
+          console.log('/user/recommend succeed', response);
           return response?.data?.records;
         })
         .catch(function (error) {
-          console.error('/user/recommend', error);
+          console.error('/user/recommend error', error);
           showFailToast('请求失败');
         })
   }
