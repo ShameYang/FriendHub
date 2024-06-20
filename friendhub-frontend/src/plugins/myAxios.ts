@@ -9,7 +9,7 @@ myAxios.defaults.withCredentials = true
 // 添加请求拦截器
 myAxios.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么
-    console.log('我要发请求啦', config)
+    console.log('发送请求', config)
     return config;
 }, function (error) {
     // 对请求错误做些什么
@@ -20,7 +20,11 @@ myAxios.interceptors.request.use(function (config) {
 myAxios.interceptors.response.use(function (response) {
     // 2xx 范围内的状态码都会触发该函数。
     // 对响应数据做点什么
-    console.log('我收到请求啦', response)
+    console.log('请求响应', response)
+    if (response?.data?.code === 40100) {
+        const redirectUrl = window.location.href;
+        window.location.href = `/user/login?redirect=${redirectUrl}`;
+    }
     return response.data;
 }, function (error) {
     // 超出 2xx 范围的状态码都会触发该函数。
