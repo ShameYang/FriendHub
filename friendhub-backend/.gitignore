@@ -5,6 +5,9 @@ target/
 !**/src/test/**/target/
 
 *.yaml
+.mvn/
+mvnw
+mvnw.cmd
 
 ### STS ###
 .apt_generated
