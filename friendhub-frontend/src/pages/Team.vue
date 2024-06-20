@@ -8,6 +8,30 @@ import TeamCardList from "../components/TeamCardList.vue";
 
 const router = useRouter();
 const searchText = ref('');
+const active = ref('public')
+
+/**
+ * 切换查询状态
+ * @param name
+ */
+const onTabChange = (name) => {
+  // 查公开
+  if (name === 'public') {
+    listTeam(searchText.value, 0);
+  }
+  // 查加密
+  if (name === 'secret') {
+    listTeam(searchText.value, 2);
+  }
+  // 已加入的队伍
+  if (name === 'join') {
+    teamJoin();
+  }
+  // 我创建的队伍
+  if (name === 'create') {
+    teamCreate();
+  }
+}
 
 // 搜索队伍
 const onSearch = (val) => {
@@ -20,22 +44,44 @@ const toAddTeam = () => {
     path: "/team/add"
   })
 }
-const toUserTeamCreate = () => {
-  router.push({
-    path: "/team/create"
-  })
-}
-const toUserTeamJoin = () => {
-  router.push({
-    path: "/team/join"
-  })
-}
 
 const teamList = ref([]);
 
-// 加载队伍信息
+// 加载公开或加密队伍
 const listTeam = async (val = '', status = 0) => {
   const res = await myAxios.get("/team/list", {
+    params: {
+      searchText: val,
+      pageNum: 1,
+      status,
+    },
+  });
+  if (res?.code === 0) {
+    teamList.value = res.data;
+  } else {
+    showFailToast('加载队伍失败，请刷新重试');
+  }
+}
+
+// 加载已加入队伍
+const teamJoin = async (val = '', status = 0) => {
+  const res = await myAxios.get("/team/list/my/join", {
+    params: {
+      searchText: val,
+      pageNum: 1,
+      status,
+    }
+  });
+  if (res?.code === 0) {
+    teamList.value = res.data;
+  } else {
+    showFailToast('加载队伍失败，请刷新重试');
+  }
+}
+
+// 加载我创建的队伍
+const teamCreate = async (val = '', status = 0) => {
+  const res = await myAxios.get("/team/list/my/create", {
     params: {
       searchText: val,
       pageNum: 1,
@@ -52,6 +98,8 @@ const listTeam = async (val = '', status = 0) => {
 // 页面加载时只触发一次
 onMounted(async () => {
   listTeam();
+  teamJoin();
+  teamCreate();
 })
 
 </script>
@@ -59,28 +107,18 @@ onMounted(async () => {
 <template>
   <div id="teamPage">
     <van-search v-model="searchText" placeholder="搜索队伍" @search="onSearch"/>
-    <span id="teamAdd">
       <van-button class="add-button" icon="plus" type="primary" round @click="toAddTeam"/>
-    </span>
-    <span id="teamCreate">
-      <van-button type="primary" @click="toUserTeamCreate">查看创建的队伍</van-button>
-    </span>
-    <span id="teamJoin">
-      <van-button type="primary" @click="toUserTeamJoin">查看加入的队伍</van-button>
-    </span>
+    <van-tabs v-model:active="active" @change="onTabChange">
+      <van-tab title="公开队伍" name="public"/>
+      <van-tab title="加密队伍" name="secret"/>
+      <van-tab title="已加入" name="join"/>
+      <van-tab title="我的创建" name="create"/>
+    </van-tabs>
     <team-card-list :teamList="teamList"/>
     <van-empty v-if="teamList?.length < 1" description="数据为空"/>
   </div>
 </template>
 
 <style scoped>
-#teamAdd {
-  padding-left: 8px;
-}
-#teamCreate {
-  padding-left: 5px;
-}
-#teamJoin {
-  padding-left: 5px;
-}
+
 </style>
