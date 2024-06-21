@@ -16,15 +16,40 @@ const props = withDefaults(defineProps<TeamCardListProps>(), {
   teamList: [] as TeamType[],
 });
 
+const showPasswordDialog = ref(false);
+const password = ref('');
+const joinTeamId = ref(0);
+
+// 判断要加入队伍的类型
+const preJoinTeam = (team: TeamType) => {
+  joinTeamId.value = team.id;
+  if (team.status === 0) {
+    doJoinTeam();
+  } else {
+    showPasswordDialog.value = true;
+  }
+}
+
+const doJoinCancel = () => {
+  joinTeamId.value = 0;
+  password.value = '';
+}
+
 /**
  * 加入队伍
  */
-const doJoinTeam = async (id: number) => {
+const doJoinTeam = async () => {
+  if (!joinTeamId.value) {
+    return;
+  }
   const res = await myAxios.post('/team/join', {
-    id: id
+    id: joinTeamId.value,
+    password: password.value,
   });
   if (res?.code === 0) {
     showSuccessToast('加入成功');
+    // 加入成功，重置 id 和 password
+    doJoinCancel();
   } else {
     showFailToast('加入失败' + (res.description ? `，${res.description}` : ''));
   }
@@ -111,7 +136,7 @@ const doDeleteTeam = async (id: number) => {
       </template>
       <template #footer>
         <van-button v-if="team.userId !== currentUser?.id && !team.hasJoin" size="small" type="primary" plain
-                    @click="doJoinTeam(team.id)">加入队伍
+                    @click="preJoinTeam(team)">加入队伍
         </van-button>
         <van-button v-if="team.userId === currentUser?.id" size="small" type="primary" plain
                     @click="doUpdateTeam(team.id)">修改队伍信息
@@ -124,6 +149,9 @@ const doDeleteTeam = async (id: number) => {
         </van-button>
       </template>
     </van-card>
+    <van-dialog v-model:show="showPasswordDialog" title="请输入密码" show-cancel-button @confirm="doJoinTeam" @cancel="doJoinCancel">
+      <van-field v-model="password" placeholder="请输入密码" autocomplete="off"/>
+    </van-dialog>
   </div>
 </template>
 
