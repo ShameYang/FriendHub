@@ -120,6 +120,7 @@ const onSubmit = async () => {
             name="password"
             label="密码"
             placeholder="请输入队伍密码"
+            autocomplete="off"
             :rules="[{ required: true, message: '请填写密码' }]"
         />
       </van-cell-group>
