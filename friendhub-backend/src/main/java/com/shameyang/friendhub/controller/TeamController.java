@@ -205,13 +205,7 @@ public class TeamController {
         queryWrapper.eq("user_id", loginUser.getId());
         List<UserTeam> userTeamList = userTeamService.list(queryWrapper);
         // 取出不重复的队伍 id
-        // teamId userId
-        // 1, 2
-        // 1, 3
-        // 2, 3
-        // result
-        // 1 => 2, 3
-        // 2 => 3
+        // teamId => userId
         Map<Long, List<UserTeam>> listMap = userTeamList.stream()
                 .collect(Collectors.groupingBy(UserTeam::getTeamId));
         List<Long> idList = new ArrayList<>(listMap.keySet());
