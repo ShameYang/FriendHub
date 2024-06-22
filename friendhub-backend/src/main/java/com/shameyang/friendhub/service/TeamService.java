@@ -65,4 +65,11 @@ public interface TeamService extends IService<Team> {
      * @return boolean
      */
     boolean deleteTeam(TeamDeleteRequest teamDeleteRequest, User loginUser);
+
+    /**
+     * 获得当前队伍人数
+     * @param teamId 队伍id
+     * @return 队伍人数
+     */
+    int countTeamUserByTeamId(long teamId);
 }

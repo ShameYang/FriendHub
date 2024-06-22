@@ -263,7 +263,7 @@ public class TeamServiceImpl extends ServiceImpl<TeamMapper, Team>
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "用户已加入该队伍");
         }
         // 已加入队伍的人数
-        long teamHasJoinNum = this.countTeamUserByTeamId(teamId);
+        int teamHasJoinNum = this.countTeamUserByTeamId(teamId);
         if (teamHasJoinNum >= team.getMaxNum()) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "队伍已满");
         }
@@ -293,7 +293,7 @@ public class TeamServiceImpl extends ServiceImpl<TeamMapper, Team>
         if (count == 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "未加入队伍");
         }
-        long teamHashJoinNum = this.countTeamUserByTeamId(teamId);
+       int teamHashJoinNum = this.countTeamUserByTeamId(teamId);
         // 队伍只剩一人，解散
         if (teamHashJoinNum == 1) {
             this.removeById(teamId);
@@ -364,15 +364,11 @@ public class TeamServiceImpl extends ServiceImpl<TeamMapper, Team>
         return team;
     }
 
-    /**
-     * 获得当前队伍人数
-     * @param teamId 队伍id
-     * @return 队伍人数
-     */
-    private long countTeamUserByTeamId(long teamId) {
+    @Override
+    public int countTeamUserByTeamId(long teamId) {
         QueryWrapper<UserTeam> userTeamQueryWrapper = new QueryWrapper<>();
         userTeamQueryWrapper.eq("team_id", teamId);
-        return userTeamService.count(userTeamQueryWrapper);
+        return (int) userTeamService.count(userTeamQueryWrapper);
     }
 }
 
