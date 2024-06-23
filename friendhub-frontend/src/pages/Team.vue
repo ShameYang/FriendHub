@@ -105,7 +105,7 @@ onMounted(async () => {
 <template>
   <div id="teamPage">
     <van-search v-model="searchText" placeholder="搜索队伍" @search="onSearch"/>
-      <van-button class="add-button" icon="plus" type="primary" round @click="toAddTeam"/>
+    <van-button class="add-button" icon="plus" type="primary" round @click="toAddTeam"/>
     <van-tabs v-model:active="active" @change="onTabChange">
       <van-tab title="公开队伍" name="public"/>
       <van-tab title="加密队伍" name="secret"/>
