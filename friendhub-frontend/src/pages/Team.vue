@@ -25,11 +25,11 @@ const onTabChange = (name) => {
   }
   // 已加入的队伍
   if (name === 'join') {
-    teamJoin();
+    teamJoin(searchText.value);
   }
   // 我创建的队伍
   if (name === 'create') {
-    teamCreate();
+    teamCreate(searchText.value);
   }
 }
 
@@ -64,12 +64,11 @@ const listTeam = async (val = '', status = 0) => {
 }
 
 // 加载已加入队伍
-const teamJoin = async (val = '', status = 0) => {
+const teamJoin = async (val = '') => {
   const res = await myAxios.get("/team/list/my/join", {
     params: {
       searchText: val,
       pageNum: 1,
-      status,
     }
   });
   if (res?.code === 0) {
@@ -80,12 +79,11 @@ const teamJoin = async (val = '', status = 0) => {
 }
 
 // 加载我创建的队伍
-const teamCreate = async (val = '', status = 0) => {
+const teamCreate = async (val = '') => {
   const res = await myAxios.get("/team/list/my/create", {
     params: {
       searchText: val,
       pageNum: 1,
-      status,
     },
   });
   if (res?.code === 0) {

@@ -26,10 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author shameyang
@@ -159,13 +156,15 @@ public class TeamServiceImpl extends ServiceImpl<TeamMapper, Team>
             // 根据状态来查询
             Integer status = teamQuery.getStatus();
             TeamStatusEnum statusEnum = TeamStatusEnum.getEnumByValue(status);
+            // status 参数为空时，查询公开和加密队伍
             if (statusEnum == null) {
-                statusEnum = TeamStatusEnum.PUBLIC;
+                queryWrapper.in("status", Arrays.asList(0, 2));
+            } else {
+                if (isNotAdmin && statusEnum.equals(TeamStatusEnum.PRIVATE)) {
+                    throw new BusinessException(ErrorCode.NO_AUTH);
+                }
+                queryWrapper.eq("status", statusEnum.getValue());
             }
-            if (isNotAdmin && statusEnum.equals(TeamStatusEnum.PRIVATE)) {
-                throw new BusinessException(ErrorCode.NO_AUTH);
-            }
-            queryWrapper.eq("status", statusEnum.getValue());
         }
 
         // 不展示已过期的队伍
