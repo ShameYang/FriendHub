@@ -14,7 +14,7 @@ const active = ref('public')
  * 切换查询状态
  * @param name
  */
-const onTabChange = (name) => {
+const onTabChange = (name: string) => {
   // 查公开
   if (name === 'public') {
     listTeam(searchText.value, 0);
@@ -34,9 +34,23 @@ const onTabChange = (name) => {
 }
 
 // 搜索队伍
-const onSearch = (val) => {
-  listTeam(val);
+const onSearch = (val: string) => {
+  if (active.value === 'public') {
+    listTeam(val, 0);
+  }
+  if (active.value === 'secret') {
+    listTeam(val, 2);
+  }
+  if (active.value === 'join') {
+    teamJoin(val);
+  }
+  if (active.value === 'create') {
+    teamCreate(val);
+  }
 };
+const onClickButton = () => {
+  onSearch(searchText.value);
+}
 
 // 跳转到创建队伍页
 const toAddTeam = () => {
@@ -104,7 +118,11 @@ onMounted(async () => {
 
 <template>
   <div id="teamPage">
-    <van-search v-model="searchText" placeholder="搜索队伍" @search="onSearch"/>
+    <van-search v-model="searchText" show-action placeholder="搜索队伍" @search="onSearch">
+      <template #action>
+        <div @click="onClickButton">搜索</div>
+      </template>
+    </van-search>
     <van-button class="add-button" icon="plus" type="primary" round @click="toAddTeam"/>
     <van-tabs v-model:active="active" @change="onTabChange">
       <van-tab title="公开队伍" name="public"/>
