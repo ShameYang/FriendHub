@@ -2,6 +2,7 @@
 import { useRouter } from "vue-router";
 import { onMounted, ref } from "vue";
 import { getCurrentUser } from "../services/user.ts";
+import myAxios from "../plugins/myAxios.ts";
 
 const user = ref();
 
@@ -21,6 +22,17 @@ const toEdit = (editKey: string, editName: string, currentValue: string) => {
     }
   })
 }
+
+// 退出登录
+const doLogout = async () => {
+  const res = await myAxios.post('/user/logout', {
+  });
+  if (res?.code === 0) {
+    await router.push('/');
+  } else {
+    showFailToast('退出失败' + (res.description ? `，${res.description}` : ''));
+  }
+}
 </script>
 
 <template>
@@ -35,8 +47,14 @@ const toEdit = (editKey: string, editName: string, currentValue: string) => {
     <van-cell title="邮箱" is-link to="/user/edit" :value="user.email" @click="toEdit('email', '邮箱', user.email)"></van-cell>
     <van-cell title="注册时间" :value="user.createTime"></van-cell>
   </template>
+  <van-row justify="end">
+    <van-button class="logout" size="normal" type="danger" round block plain @click="doLogout">退出登录</van-button>
+  </van-row>
 </template>
 
 <style scoped>
+  .logout {
+    margin-top: 20px;
 
+  }
 </style>
