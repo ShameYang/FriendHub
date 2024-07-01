@@ -10,6 +10,13 @@ const router = useRouter();
 
 onMounted(async () => {
   user.value = await getCurrentUser();
+  const gender = user.value.gender
+  if (gender === 0) {
+    user.value.gender = '男'
+  }
+  if (gender === 1) {
+    user.value.gender = '女'
+  }
 })
 
 const toEdit = (editKey: string, editName: string, currentValue: string) => {
