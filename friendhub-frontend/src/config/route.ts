@@ -5,6 +5,7 @@ import Search from "../pages/Search.vue"
 import UserEdit from "../pages/UserEdit.vue";
 import SearchResult from "../pages/SearchResult.vue";
 import UserLogin from "../pages/UserLogin.vue";
+import UserRegister from "../pages/UserRegister.vue";
 import TeamAdd from "../pages/TeamAdd.vue";
 import TeamUpdate from "../pages/TeamUpdate.vue";
 
@@ -18,6 +19,7 @@ const routes = [
     { path: '/user/list', title:'搜索到的用户', component: SearchResult },
     { path: '/search', title:'搜索用户', component: Search },
     { path: '/user/login', title:'登录', component: UserLogin },
+    { path: '/user/register', title:'注册', component: UserRegister },
 ]
 
 export default routes;

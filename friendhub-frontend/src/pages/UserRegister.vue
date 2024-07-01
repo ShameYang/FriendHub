@@ -1,26 +1,27 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import myAxios from "../plugins/myAxios";
-import { useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 
-const route = useRoute();
+const router = useRouter();
 
 const userAccount = ref('');
 const password = ref('');
+const checkPwd = ref('');
 
 const onSubmit = async () => {
-  const res = await myAxios.post('/user/login', {
+  const res = await myAxios.post('/user/register', {
     userAccount: userAccount.value,
-    password: password.value
+    password: password.value,
+    checkPwd: checkPwd.value
   })
-  console.log(res, '用户登录');
+  console.log(res, '用户注册');
   if (res.code === 0 && res.data) {
-    showSuccessToast('登录成功');
-    // 跳转到之前的页面
-    const redirectUrl = route.query?.redirect as string ?? '/';
-    window.location.href = redirectUrl;
+    showSuccessToast('注册成功');
+    // 跳转到登录页面
+    await router.push('/user/login');
   } else {
-    showFailToast('登录失败');
+    showFailToast(res.description);
   }
 };
 </script>
@@ -44,7 +45,15 @@ const onSubmit = async () => {
           autocomplete="off"
           :rules="[{ required: true, message: '请填写密码' }]"
       />
-      <van-cell class="register" value="还没有账号？点击注册" to="register"/>
+      <van-field
+          v-model="checkPwd"
+          type="password"
+          name="确认密码"
+          label="确认密码"
+          placeholder="确认密码"
+          autocomplete="off"
+          :rules="[{ required: true, message: '请填写确认密码' }]"
+      />
     </van-cell-group>
     <div style="margin: 16px;">
       <van-button round block type="primary" native-type="submit">
@@ -55,7 +64,5 @@ const onSubmit = async () => {
 </template>
 
 <style scoped>
-  .register {
-    --van-cell-value-color: #1989fa;
-  }
+
 </style>
