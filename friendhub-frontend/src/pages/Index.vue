@@ -72,6 +72,7 @@ watchEffect(() => {
       <van-switch v-model="isMatchMode" size="24"/>
     </template>
   </van-cell>
+  <van-cell title="管理我的标签" is-link to="/user/tags"/>
   <user-card-list :user-list="userList" :loading="loading"/>
   <van-empty v-if="!userList || userList.length < 1" description="数据为空" />
 </template>

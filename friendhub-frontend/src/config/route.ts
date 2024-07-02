@@ -8,6 +8,7 @@ import UserLogin from "../pages/UserLogin.vue";
 import UserRegister from "../pages/UserRegister.vue";
 import TeamAdd from "../pages/TeamAdd.vue";
 import TeamUpdate from "../pages/TeamUpdate.vue";
+import UserTags from "../pages/UserTags.vue";
 
 const routes = [
     { path: '/', title:'推荐用户', component: Index },
@@ -20,6 +21,7 @@ const routes = [
     { path: '/search', title:'搜索用户', component: Search },
     { path: '/user/login', title:'登录', component: UserLogin },
     { path: '/user/register', title:'注册', component: UserRegister },
+    { path: '/user/tags', title:'标签管理', component: UserTags },
 ]
 
 export default routes;
