@@ -129,6 +129,7 @@ public class UserController {
         }
         // 没有缓存，查数据库
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.ne("id", loginUser.getId());
         userPage = userService.page(new Page<>(pageNum, pageSize), queryWrapper);
         // 写缓存，10s过期
         try {
