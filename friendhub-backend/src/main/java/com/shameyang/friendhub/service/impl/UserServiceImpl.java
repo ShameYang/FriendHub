@@ -236,11 +236,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         // 用户列表的下标 => 相似度
         List<Pair<User, Long>> list = new ArrayList<>();
         // 依次计算所有用户和当前用户的相似度
-        for (int i = 0; i < userList.size(); i++) {
-            User user = userList.get(i);
+        for (User user : userList) {
             String userTags = user.getTags();
-            // 无标签
-            if (StringUtils.isBlank(userTags) || user.getId().equals(loginUser.getId())) {
+            // 无标签或为当前用户
+            if (userTags.equals("[]") || user.getId().equals(loginUser.getId())) {
                 continue;
             }
             List<String> userTagList = gson.fromJson(userTags, new TypeToken<List<String>>() {
