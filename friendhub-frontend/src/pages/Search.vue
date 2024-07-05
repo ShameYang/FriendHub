@@ -13,12 +13,21 @@ const originTagList = [
     ],
   },
   {
-    text: '年级',
+    text: '爱好',
     children: [
-      {text: '大一', id: '大一'},
-      {text: '大二', id: '大二'},
-      {text: '大三', id: '大三'},
-      {text: '大四', id: '大四'},
+      {text: '编程', id: '编程'},
+      {text: '运动', id: '运动'},
+      {text: '听音乐', id: '听音乐'},
+      {text: '游戏', id: '游戏'},
+    ],
+  },
+  {
+    text: '编程语言',
+    children: [
+      {text: 'java', id: 'java'},
+      {text: 'python', id: 'python'},
+      {text: 'c++', id: 'c++'},
+      {text: 'go', id: 'go'},
     ],
   },
 ];

@@ -11,6 +11,7 @@ const route = useRoute();
 const { tags } = route.query;
 
 const userList = ref([]);
+const loading = ref(true);
 
 onMounted(async () => {
   const userListData = await myAxios.get('/user/search/tags', {
@@ -30,6 +31,9 @@ onMounted(async () => {
         console.error('/user/search/tags error', error);
         showFailToast('请求失败');
       })
+      .finally(() => {
+        loading.value = false;
+      });
   if (userListData) {
     userListData.forEach(user => {
       if (user.tags) {
@@ -42,8 +46,12 @@ onMounted(async () => {
 </script>
 
 <template>
-  <user-card-list :user-list="userList"/>
-  <van-empty v-if="!userList || userList.length < 1" description="搜索结果为空" />
+  <van-row justify="center">
+    <van-loading v-if="loading" size="48px" text-size="24px" color="#0094ff"
+                 style="padding-top: 100px">加载中...</van-loading>
+  </van-row>
+  <user-card-list :user-list="userList" :loading="loading"/>
+  <van-empty v-if="!loading && (!userList || userList.length < 1)" description="搜索结果为空" />
 </template>
 
 <style scoped>
