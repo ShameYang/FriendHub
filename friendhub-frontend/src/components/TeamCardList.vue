@@ -157,8 +157,12 @@ const doDeleteTeam = async (id: number) => {
 
 <style scoped>
 #teamCardList :deep(.van-image__img) {
-  width: 110px;
-  height: 90px;
-  margin-left: -15px;
+  width: 124px;
+  height: 120px;
+  margin-left: -16px;
+}
+
+#teamCardList :deep(.van-card__content) {
+  margin-left: 16px
 }
 </style>
