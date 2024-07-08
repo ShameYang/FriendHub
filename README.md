@@ -6,27 +6,27 @@
 
 ### 登录页
 
-<img src="imgs/login.png" style="zoom:67%;float:left" />
+<img src="imgs/login.png" style="zoom: 50%; float: left;" />
 
 ### 注册页
 
-<img src="imgs/register.png" style="zoom:67%;float:left" />
+<img src="imgs/register.png" style="zoom: 50%; float: left;" />
 
 ### 主页
 
-<img src="imgs/index.png" style="zoom:67%;float:left" />
+<img src="imgs/index.png" style="zoom: 50%; float: left;" />
 
 ### 组队页
 
-<img src="imgs/team.png" style="zoom:67%;float:left" />
+<img src="imgs/team.png" style="zoom: 50%; float: left;" />
 
 ### 用户页
 
-<img src="imgs/user.png" style="zoom:67%;float:left" />
+<img src="imgs/user.png" style="zoom: 50%; float: left;" />
 
 ### 搜索用户
 
-<img src="imgs/searchUser.png" style="zoom:67%;float:left" />
+<img src="imgs/searchUser.png" style="zoom: 50%; float: left;" />
 
 
 
