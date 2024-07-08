@@ -30,6 +30,17 @@ const toEdit = (editKey: string, editName: string, currentValue: string) => {
   })
 }
 
+const toEditGender = (editKey: string, editName: string, currentValue: string) => {
+  router.push({
+    path: '/user/edit/gender',
+    query: {
+      editKey,
+      editName,
+      currentValue,
+    }
+  })
+}
+
 // 退出登录
 const doLogout = async () => {
   const res = await myAxios.post('/user/logout', {
@@ -49,7 +60,7 @@ const doLogout = async () => {
     <van-cell title="头像" is-link to="/user/edit" @click="toEdit('avatarUrl', '头像URL', user.avatarUrl)">
       <img :src="user.avatarUrl" style="height: 50px">
     </van-cell>
-    <van-cell title="性别" is-link to="/user/edit" :value="user.gender" @click="toEdit('gender', '性别', user.gender)"></van-cell>
+    <van-cell title="性别" is-link to="/user/edit" :value="user.gender" @click="toEditGender('gender', '性别', user.gender)"></van-cell>
     <van-cell title="电话" is-link to="/user/edit" :value="user.phone" @click="toEdit('phone', '电话', user.phone)"></van-cell>
     <van-cell title="邮箱" is-link to="/user/edit" :value="user.email" @click="toEdit('email', '邮箱', user.email)"></van-cell>
     <van-cell title="注册时间" :value="user.createTime"></van-cell>
