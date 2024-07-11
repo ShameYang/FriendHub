@@ -110,8 +110,6 @@ const teamCreate = async (val = '') => {
 // 页面加载时只触发一次
 onMounted(async () => {
   listTeam();
-  teamJoin();
-  teamCreate();
 })
 
 </script>
