@@ -66,17 +66,17 @@ const saveTags = async () => {
 };
 
 const onClickItem = (e) => {
-  console.log(tagList.value);
-  if (tagList.value.includes('男') && e.id != '男') {
-    tagList.value = tagList.value.filter(item => {
-      return item !== '男';
-    });
-  } else if (tagList.value.includes('女') && e.id != '女') {
-    tagList.value = tagList.value.filter(item => {
-      return item !== '女';
-    });
+  if (tags[activeIndex.value].text === '性别') {
+    if (tagList.value.includes('男') && e.id != '男') {
+      tagList.value = tagList.value.filter(item => {
+        return item !== '男';
+      });
+    } else if (tagList.value.includes('女') && e.id != '女') {
+      tagList.value = tagList.value.filter(item => {
+        return item !== '女';
+      });
+    }
   }
-  console.log(tagList.value);
 }
 </script>
 
