@@ -64,6 +64,20 @@ const saveTags = async () => {
     showFailToast('保存失败');
   }
 };
+
+const onClickItem = (e) => {
+  console.log(tagList.value);
+  if (tagList.value.includes('男') && e.id != '男') {
+    tagList.value = tagList.value.filter(item => {
+      return item !== '男';
+    });
+  } else if (tagList.value.includes('女') && e.id != '女') {
+    tagList.value = tagList.value.filter(item => {
+      return item !== '女';
+    });
+  }
+  console.log(tagList.value);
+}
 </script>
 
 <template>
@@ -81,6 +95,7 @@ const saveTags = async () => {
   <van-tree-select
       v-model:active-id="tagList"
       v-model:main-active-index="activeIndex"
+      @click-item="onClickItem"
       :items="tags"
       height="320px"
   />
