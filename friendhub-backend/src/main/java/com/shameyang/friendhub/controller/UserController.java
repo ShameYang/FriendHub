@@ -109,11 +109,12 @@ public class UserController {
     }
 
     @GetMapping("/search/tags")
-    public BaseResponse<List<User>> searchUsersByTags(@RequestParam(required = false) List<String> tagNameList) {
+    public BaseResponse<List<User>> searchUsersByTags(@RequestParam(required = false) List<String> tagNameList, HttpServletRequest request) {
         if (CollectionUtils.isEmpty(tagNameList)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        List<User> userList = userService.searchUsersByTags(tagNameList);
+        User loginUser = userService.getLoginUser(request);
+        List<User> userList = userService.searchUsersByTags(tagNameList, loginUser);
         return ResultUtils.success(userList);
     }
 

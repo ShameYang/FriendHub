@@ -158,12 +158,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     }
 
     @Override
-    public List<User> searchUsersByTags(List<String> tagNameList) {
+    public List<User> searchUsersByTags(List<String> tagNameList, User loginUser) {
         if (CollectionUtils.isEmpty(tagNameList)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        // 1.先查询所有用户
+        // 1.先查询所有用户（排除自己）
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.ne("id", loginUser.getId());
         List<User> userList = this.list(queryWrapper);
         Gson gson = new Gson();
         // 2. 在内存中判断是否包含要求的标签

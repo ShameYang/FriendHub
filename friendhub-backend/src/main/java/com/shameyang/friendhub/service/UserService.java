@@ -47,9 +47,10 @@ public interface UserService extends IService<User> {
     /**
      * 根据标签搜索用户（内存过滤）
      * @param tagNameList 标签列表
+     * @param loginUser 当前用户
      * @return
      */
-    List<User> searchUsersByTags(List<String> tagNameList);
+    List<User> searchUsersByTags(List<String> tagNameList, User loginUser);
 
     /**
      * 更新用户信息
