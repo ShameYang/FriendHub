@@ -15,7 +15,6 @@ const onSubmit = async () => {
     password: password.value,
     checkPwd: checkPwd.value
   })
-  console.log(res, '用户注册');
   if (res.code === 0 && res.data) {
     showSuccessToast('注册成功');
     // 跳转到登录页面

@@ -55,7 +55,6 @@ const close = (tag) => {
 
 const saveTags = async () => {
   user.value.tags = JSON.stringify(tagList.value);
-  console.log(user.value);
   const res = await myAxios.post('/user/update', user.value);
   if (res.code === 0 && res.data > 0) {
     showSuccessToast('保存成功');

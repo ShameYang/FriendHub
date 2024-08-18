@@ -25,11 +25,9 @@ const loadData = async () => {
       },
     })
         .then(function (response) {
-          console.log('/user/match succeed', response);
           return response?.data;
         })
-        .catch(function (error) {
-          console.error('/user/match error', error);
+        .catch(function () {
           showFailToast('请求失败');
         })
 
@@ -42,11 +40,9 @@ const loadData = async () => {
       },
     })
         .then(function (response) {
-          console.log('/user/recommend succeed', response);
           return response?.data?.records;
         })
-        .catch(function (error) {
-          console.error('/user/recommend error', error);
+        .catch(function () {
           showFailToast('请求失败');
         })
   }

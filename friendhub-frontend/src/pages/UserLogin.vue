@@ -13,7 +13,6 @@ const onSubmit = async () => {
     userAccount: userAccount.value,
     password: password.value
   })
-  console.log(res, '用户登录');
   if (res.code === 0 && res.data) {
     showSuccessToast('登录成功');
     // 跳转到之前的页面

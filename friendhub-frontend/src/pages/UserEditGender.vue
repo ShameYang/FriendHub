@@ -36,13 +36,10 @@ const onSubmit = async () => {
     return;
   }
 
-  console.log(currentUser, '当前用户');
-
   const res = await myAxios.post('/user/update', {
     'id': currentUser.id,
     [editUser.value.editKey as string]: selectValue.value,
   })
-  console.log(res, '更新请求');
   if (res.code === 0 && res.data > 0) {
     showSuccessToast('修改成功');
     router.back();

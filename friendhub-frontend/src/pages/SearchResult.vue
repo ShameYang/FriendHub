@@ -24,11 +24,9 @@ onMounted(async () => {
 
   })
       .then(function (response) {
-        console.log('/user/search/tags succeed', response);
         return response?.data
       })
-      .catch(function (error) {
-        console.error('/user/search/tags error', error);
+      .catch(function () {
         showFailToast('请求失败');
       })
       .finally(() => {
